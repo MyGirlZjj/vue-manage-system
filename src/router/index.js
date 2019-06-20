@@ -96,6 +96,16 @@ export default new Router({
                     path: '/403',
                     component: resolve => require(['../components/page/403.vue'], resolve),
                     meta: { title: '403' }
+                },
+                {
+                    path: '/yaopinxinxi',
+                    component: resolve => require(['../components/zhidan/yaopinxinxi.vue'], resolve),
+                    meta: { title: '药品信息' }
+                },
+                {
+                    path: '/zhidan',
+                    component: resolve => require(['../components/zhidan/zhidan.vue'], resolve),
+                    meta: { title: '制作表格' }
                 }
             ]
         },

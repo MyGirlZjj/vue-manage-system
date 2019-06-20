@@ -44,6 +44,21 @@
                         title: '系统首页'
                     },
                     {
+                        icon: 'el-icon-do-zhibiao',
+                        index: '1',
+                        title: '制单相关',
+                        subs: [
+                            {
+                                index: 'yaopinxinxi',
+                                title: '药品信息',
+                            },
+                            {
+                                index: 'zhibiao',
+                                title: '拖拽弹框',
+                            }
+                        ]
+                    },
+                    {
                         icon: 'el-icon-lx-cascades',
                         index: 'table',
                         title: '基础表格'
