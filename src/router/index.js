@@ -102,11 +102,11 @@ export default new Router({
                     component: resolve => require(['../components/zhidan/yaopinxinxi.vue'], resolve),
                     meta: { title: '药品信息' }
                 },
-                {
-                    path: '/zhidan',
-                    component: resolve => require(['../components/zhidan/zhidan.vue'], resolve),
-                    meta: { title: '制作表格' }
-                }
+                // {
+                //     path: '/zhidan',
+                //     component: resolve => require(['../components/zhidan/zhidan.vue'], resolve),
+                //     meta: { title: '制作表格' }
+                // }
             ]
         },
         {

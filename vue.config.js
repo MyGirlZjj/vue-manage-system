@@ -15,6 +15,5 @@ module.exports = {
                 changeOrigin: true
             }
         }
-    },
-    devtools : true
+    }
 }

@@ -44,7 +44,7 @@
                         title: '系统首页'
                     },
                     {
-                        icon: 'el-icon-do-zhibiao',
+                        icon: 'el-icon-lx-tagfill',
                         index: '1',
                         title: '制单相关',
                         subs: [
