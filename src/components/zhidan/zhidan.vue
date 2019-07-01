@@ -43,28 +43,6 @@
             </div>
         </div>
 
-        <!-- 上传excel弹出框 -->
-        <el-dialog :visible.sync="uploadVisible" width="30%">
-            <el-upload
-                class="upload-demo"
-                drag
-                action="String"
-                accept=".xlsx, .xls"
-                :http-request="uploadFile"
-                :on-change="handleChange"
-                :auto-upload="false"
-                >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-            </el-upload>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="uploadVisible = false">取 消</el-button>
-                <el-button type="primary" @click="submitUpload">确 定</el-button>
-            </span>
-        </el-dialog>
-
-
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑药品信息" :visible.sync="editVisible" width="40%">
             <el-form ref="form" :model="form" label-width="80px">
@@ -104,7 +82,7 @@
 
 <script>
     import { getUrl } from '../../api/ypxx'
-    import { timingSafeEqual } from 'crypto';
+import { timingSafeEqual } from 'crypto';
     export default {
         name: 'yaopinxinxi',
         data() {
@@ -117,9 +95,6 @@
                 select_word: '',
                 delAllData: [],
                 delYpxxMc:[],
-                fileList: [],
-                formData: "",
-                uploadVisible: false,
                 editVisible: false,
                 delVisible: false,
                 form: {
@@ -149,41 +124,6 @@
             }
         },
         methods: {
-            delFile() {
-                this.fileList = [];
-            },
-            uploadFile(file) {
-                this.formData.append("file", file.file);
-            },
-            handleChange(file, fileList) {
-                this.fileList = fileList;
-            },
-            getUploadUrl(){
-                return getUrl().uploadExcel
-            },
-            submitUpload() {
-                console.log(this.fileList)
-                let formData = new FormData();
-                formData.append("file", this.fileList[0].raw);
-                let config ={
-                        headers: {
-                        "Content-Type": "multipart/form-data;charset=utf-8"
-                    }
-                }
-
-                this.$axios.post(getUrl().uploadExcel,formData,config                    
-                )
-                .then(res => {
-                    if (res.data.success) {
-                        // alert("导入成功!");
-                    } else {
-                        alert(res.data.message + "," + res.data.data);
-                    }
-                    })
-                .catch(err => {
-                    console.log(err);
-                });
-            },
             // 分页导航
             handleCurrentChange(val) {
                 this.cur_page = val;
@@ -257,8 +197,7 @@
                 this.editVisible = true;
             },
             addBatch(){
-                // this.$message.success(`批量新增成功`);
-                this.uploadVisible = true
+                this.$message.success(`批量新增成功`);
             },
             handleDelete(index, row) {
                 this.idx = index;

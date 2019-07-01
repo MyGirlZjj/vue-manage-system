@@ -17,6 +17,7 @@ Vue.use(ElementUI, {
     size: 'small'
 });
 Vue.prototype.$axios = axios;
+// axios.defaults.headers.post["Content-type"] = "application/json"
 
 const i18n = new VueI18n({
     locale: 'zh',

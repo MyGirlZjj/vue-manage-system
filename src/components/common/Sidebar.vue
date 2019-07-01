@@ -53,8 +53,8 @@
                                 title: '药品信息',
                             },
                             {
-                                index: 'zhibiao',
-                                title: '拖拽弹框',
+                                index: 'zhidan',
+                                title: '制单',
                             }
                         ]
                     },

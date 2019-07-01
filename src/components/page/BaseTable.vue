@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import getUrl from '../../api/ypxx'
     export default {
         name: 'basetable',
         data() {
@@ -124,10 +125,7 @@
             // 获取 easy-mock 的模拟数据
             getData() {
                 // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-                if (process.env.NODE_ENV === 'development') {
-                    this.url = '/ms/table/list';
-                };
-                this.$axios.post(this.url, {
+                this.$axios.post(getUrl('queryYpxx'), {
                     page: this.cur_page
                 }).then((res) => {
                     this.tableData = res.data.list;
