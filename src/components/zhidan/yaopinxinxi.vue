@@ -30,8 +30,9 @@
                 <el-table-column prop="danjia" label="单价" width="80"></el-table-column>
                 <el-table-column prop="shengchanchangjia" label="生产厂家" width="120"></el-table-column>
                 <el-table-column prop="pizhunwenhao" label="批准文号" width="120"></el-table-column>
-                <el-table-column label="操作" width="140" align="center">
+                <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
+                        <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">添加</el-button>
                         <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                         <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
@@ -171,16 +172,26 @@
                     }
                 }
 
-                this.$axios.post(getUrl().uploadExcel,formData,config                    
+                this.$axios.post(
+                    getUrl().uploadExcel,
+                    formData,
+                    config                    
                 )
                 .then(res => {
-                    if (res.data.success) {
+                    console.log(res)
+                    if (res.status == 200) {
                         // alert("导入成功!");
+                        this.$message.success('批量上传成功');
                     } else {
-                        alert(res.data.message + "," + res.data.data);
+                        // alert(res.data.message + "," + res.data.data);
+                        this.$message.error('批量上传成功失败，请重试！');
                     }
-                    })
+                    this.getData();
+                    this.uploadVisible = false
+                })
                 .catch(err => {
+                    this.$message.error('服务器出现异常，请联系管理员！');
+                    this.uploadVisible = false
                     console.log(err);
                 });
             },
