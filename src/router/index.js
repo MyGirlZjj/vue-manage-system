@@ -105,7 +105,7 @@ export default new Router({
                 {
                     path: '/zhidan',
                     component: resolve => require(['../components/zhidan/zhidan.vue'], resolve),
-                    meta: { title: '制作表格' }
+                    meta: { title: '制单信息' }
                 }
             ]
         },

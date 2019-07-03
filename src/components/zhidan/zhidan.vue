@@ -2,79 +2,48 @@
     <div class="table">
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-lx-cascades"></i>药品信息</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-lx-cascades"></i>制单信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
-            <div class="handle-box">
-                <el-button type="primary" icon="delete" class="handle-del mr10" @click="addYPXX">新增</el-button>
-                <el-button type="primary" icon="delete" class="handle-del mr10" @click="addBatch">批量新增</el-button>
-                <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-                <!-- <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
-                    <el-option key="1" label="广东省" value="广东省"></el-option>
-                    <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                </el-select> -->
-                <el-input v-model="select_word" placeholder="搜索编码信息" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="search" @click="search">搜索</el-button>
-            </div>
-            <el-table stripe :data="data" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
-                <el-table-column type="selection" width="35" align="center"></el-table-column>
-                <!-- <el-table-column prop="id" label="id" v-show="false" width="150"></el-table-column> -->
-                <el-table-column prop="bianma" label="编码" sortable width="120"></el-table-column>
+            <el-table stripe :data="cartProducts"  border class="table" ref="multipleTable">
+                <el-table-column prop="bianma" label="编码" width="120"></el-table-column>
                 <el-table-column prop="pinming" label="品名" width="120"></el-table-column>
                 <el-table-column prop="guige" label="规格" width="80"></el-table-column>
                 <el-table-column prop="pihao" label="批号" width="120"></el-table-column>
-                <!-- <el-table-column prop="pihao" label="批号" :formatter="formatter" width="120"></el-table-column> -->
-                <el-table-column prop="youxiaoqi" label="有效期" width="80"></el-table-column>
                 <el-table-column prop="danwei" label="单位" width="50"></el-table-column>
-                <el-table-column prop="danjia" label="单价" width="80"></el-table-column>
-                <el-table-column prop="shengchanchangjia" label="生产厂家" width="120"></el-table-column>
-                <el-table-column prop="pizhunwenhao" label="批准文号" width="120"></el-table-column>
-                <el-table-column label="操作" width="140" align="center">
+                <el-table-column label="数量" width="180">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                        <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        <el-input-number size="mini" :min="1" :value="scope.row.num" v-on:input="handleBlur" @change="handleChange( scope.row )"></el-input-number>
+                    </template>
+		        </el-table-column>
+                <el-table-column prop="danjia" label="单价" width="80"></el-table-column>
+                <el-table-column prop="total_num" label="总价" width="180"></el-table-column>
+                <el-table-column label="操作" width="180">
+                    <template slot-scope="scope">
+                        <el-button type="danger" plain icon="el-icon-delete" size="mini" @click="dialogVisibleTrue( scope.row )">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
-            <div class="pagination">
-                <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                </el-pagination>
-            </div>
+            <el-row :gutter="20">
+                <el-col :span="6">总数：{{totalNum}}</el-col>
+                <el-col :span="6">合计价格：{{totalPrice}}</el-col>
+                <el-col :span="6">
+                    <el-button type="danger" size="medium" icon="el-icon-delete" @click="dialogDeleteAll">清空购物车</el-button>
+                </el-col>
+		  	<el-col :span="6"></el-col>
+		</el-row>
         </div>
 
-        <!-- 编辑弹出框 -->
-        <el-dialog title="编辑药品信息" :visible.sync="editVisible" width="40%">
-            <el-form ref="form" :model="form" label-width="80px">
-                <!-- <el-form-item label="日期">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
-                </el-form-item> -->
-                <!-- <el-form-item label="id"><el-input v-model="form.id"></el-input></el-form-item> -->
-                <el-form-item label="编码"><el-input v-model="form.bianma"></el-input></el-form-item>
-                <el-form-item label="品名"><el-input v-model="form.pinming"></el-input></el-form-item>
-                <el-form-item label="规格"><el-input v-model="form.guige"></el-input></el-form-item>
-                <el-form-item label="批号"><el-input v-model="form.pihao"></el-input></el-form-item>
-                <!-- <el-form-item label="有效期"><el-input v-model="form.youxiaoqi"></el-input></el-form-item> -->
-                <el-form-item label="有效期">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.youxiaoqi" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
-                </el-form-item>
-                <el-form-item label="单位"><el-input v-model="form.danwei"></el-input></el-form-item>
-                <el-form-item label="单价"><el-input v-model="form.danjia"></el-input></el-form-item>
-                <el-form-item label="生产厂家"><el-input v-model="form.shengchanchangjia"></el-input></el-form-item>
-                <el-form-item label="批准文号"><el-input v-model="form.pizhunwenhao"></el-input></el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
-            </span>
-        </el-dialog>
+
+
 
         <!-- 删除提示框 -->
-        <el-dialog title="提示" :visible.sync="delVisible" width="300px" center>
+        <el-dialog title="提示" :visible.sync="dialogVisible" width="300px" center>
             <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="delVisible = false">取 消</el-button>
-                <el-button type="primary" @click="deleteYpxx">确 定</el-button>
+                <el-button type="primary" @click="deleteYpxxToCart">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -82,174 +51,53 @@
 
 <script>
     import { getUrl } from '../../api/ypxx'
-import { timingSafeEqual } from 'crypto';
+    import { mapGetters,mapActions,mapState } from 'vuex'
     export default {
-        name: 'yaopinxinxi',
+        name: 'zhidanxinxi',
         data() {
             return {
-                url: './vuetable.json',
-                tableData: [],
-                cur_page: 1,
-                multipleSelection: [],
-                select_cate: '',
-                select_word: '',
-                delAllData: [],
-                delYpxxMc:[],
-                editVisible: false,
-                delVisible: false,
-                form: {
-                    id:'',
-                    bianma: '',
-                    pinming: '',
-                    guige: '',
-                    pihao: '',
-                    youxiaoqi: '',
-                    danwei: '',
-                    danjia: '',
-                    shengchanchangjia: '',
-                    pizhunwenhao: ''
-                },
-                idx: -1,
-                id: -1
+                input_number_value:1,
+                dialogVisible : false,
+                delData : null                
             }
-        },
-        created() {
-            this.getData();
         },
         computed: {
-            data() {
-                return this.tableData.filter((d) => {
-                   return d
-                })
-            }
+            ...mapGetters({
+			    cartProducts:'cart/cartProducts'
+		    })
         },
         methods: {
-            // 分页导航
-            handleCurrentChange(val) {
-                this.cur_page = val;
-                this.getData();
+            ...mapActions({
+                 'addGoodsFromCart': 'cart/add_goods_from_cart',
+                'reduceGoodsFromCart': 'cart/reduce_goods_from_cart',
+                'deleteGoodsFromCart': 'cart/delete_goods_from_cart',
+                'modifyGoodsFromCart': 'cart/modify_goods_num_from_cart',
+            }),
+            deleteYpxxToCart(){
+                this.deleteGoodsFromCart(this.delData)
+                this.delData = null
+                this.dialogVisible = false
             },
-            // 获取 easy-mock 的模拟数据
-            getData() {
-                // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-                // if (process.env.NODE_ENV === 'development') {
-                //     this.url = '/ms/table/list';
-                // };
-                const url = getUrl().queryYpxx
-                this.$axios.post(url, {
-                    page: this.cur_page
-                }).then((res) => {
-                    this.tableData = res.data;
-                })
+            dialogVisibleTrue( data ){
+                this.dialogVisible = true;
+                this.delData = data;
             },
-            search() {
-                 //查询
-                const queryUrl = getUrl().queryYpxxByBianMa
-                this.$axios.post(queryUrl, {
-                    formData: this.select_word
-                }).then((res) => {
-                    console.log(res)
-                    if(res.status == 200){
-                        // this.$message.success(`搜索药品编码【${this.select_word}】成功`);
-                        this.tableData = res.data;
-                    }else{
-                        this.$message.error(`搜索药品编码【${this.select_word}】失败`);
-                    }
-                })
-                
+            handleChange( data ) {
+                data.num = this.input_number_value;
+                this.modifyGoodsFromCart( data );
             },
-            formatter(row, column) {
-                return row.address;
-            },
-            filterTag(value, row) {
-                return row.tag === value;
-            },
-            handleEdit(index, row) {
-                this.idx = index;
-                this.id = row.id;
-                this.form = {
-                    id: row.id,
-                    bianma: row.bianma,
-                    pinming: row.pinming,
-                    guige: row.guige,
-                    pihao: row.pihao,
-                    youxiaoqi: row.youxiaoqi,
-                    danwei: row.danwei,
-                    danjia: row.danjia,
-                    shengchanchangjia: row.shengchanchangjia,
-                    pizhunwenhao: row.pizhunwenhao
-                }
-                this.editVisible = true;
-            },
-            addYPXX(){
-                this.form ={
-                    id:'',
-                    bianma: '',
-                    pinming: '',
-                    guige: '',
-                    pihao: '',
-                    youxiaoqi: '',
-                    danwei: '',
-                    danjia: '',
-                    shengchanchangjia: '',
-                    pizhunwenhao: ''
-                }
-                this.editVisible = true;
-            },
-            addBatch(){
-                this.$message.success(`批量新增成功`);
-            },
-            handleDelete(index, row) {
-                this.idx = index;
-                this.id = row.id;
-                this.delYpxxMc.push(row.pinming)
-                this.delAllData.push(row)
-                this.delVisible = true;
-            },
-            delAll() {
-                let select = this.multipleSelection
-                let length = select.length
-                if(select.length >0){
-                    for(let i = 0;i < length;i++){
-                        let row = select[i]
-                        this.delAllData.push(row)
-                        this.delYpxxMc.push(row.pinming)
-                    }
-                    
-                    this.delVisible = true 
-                }else{
-                    this.$message.error(`请选择要删除的信息`);
-                }
-                
-            },
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
-            },
-            // 保存编辑
-            saveEdit() {
-                this.editVisible = false;
-                // TODO  调用后台接口 (保存或修改)
-                this.url = getUrl().addOrUpadteYpxx
-                this.$axios.post(this.url,{
-                    formData: this.form
-                }).then((res) => {
-                    const editData = res.data
-                    if(res.status == 200){
-                        if(this.idx >= 0){
-                            this.$message.success(`修改药品【${editData.pinming}】成功`);
-                        }else{
-                            this.$message.success(`新增药品【${editData.pinming}】成功`);
-                        }
-                    }else{
-                        if(this.idx >= 0){
-                            this.$message.error(`修改药品【${editData.pinming}】失败`);
-                        }else{
-                            this.$message.error(`新增药品【${editData.pinming}】失败`);
-                        }
-                    }
-                   this.getData();
-                })
-            },
+            handleBlur(value){
+                this.input_number_value = value
+            },           
+            // getData(){
+            //     this.tableData = this.cartGoodsList()
+            //     console.log(this.tableData)
+            // },
+
+
+            //无用
+            
+            
             // 确定删除
             deleteYpxx(){
                 this.delVisible = false;
@@ -300,4 +148,6 @@ import { timingSafeEqual } from 'crypto';
     .mr10{
         margin-right: 10px;
     }
+
+	.el-col-6{padding: 20px; text-align: center;}
 </style>

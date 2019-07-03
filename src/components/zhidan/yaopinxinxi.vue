@@ -32,7 +32,7 @@
                 <el-table-column prop="pizhunwenhao" label="批准文号" width="120"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">添加</el-button>
+                        <el-button type="text" icon="el-icon-edit" @click="addYpxxToCret(scope.$index, scope.row)">添加</el-button>
                         <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                         <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
@@ -105,7 +105,7 @@
 
 <script>
     import { getUrl } from '../../api/ypxx'
-    import { timingSafeEqual } from 'crypto';
+    import { mapGetters,mapActions,mapState } from 'vuex'
     export default {
         name: 'yaopinxinxi',
         data() {
@@ -143,6 +143,10 @@
             this.getData();
         },
         computed: {
+            ...mapGetters({
+                cartNum: 'cart/cartNum',
+                hasGoods: 'cart/hasGoods'
+            }),
             data() {
                 return this.tableData.filter((d) => {
                    return d
@@ -150,6 +154,26 @@
             }
         },
         methods: {
+            //组件构建方法
+            ...mapActions({
+                'createGoodsToCart': 'cart/create_goods_to_cart',
+                'addGoodsFromCart': 'cart/add_goods_from_cart'
+            }),
+            addYpxxToCret(index,row){
+                 //判断这件商品是否在购物车内
+                let hasGoods = this.hasGoods(row)
+                if (hasGoods) {
+                    //有，该商品的数量+1
+                    this.addGoodsFromCart(row)
+                }else {
+                    //没有，购物车创建该商品
+                    row.num = 1
+                    this.createGoodsToCart(row)
+                }
+
+                // let target = this.$refs.thumb
+                // this.$emit('addCart', target)
+            },
             delFile() {
                 this.fileList = [];
             },

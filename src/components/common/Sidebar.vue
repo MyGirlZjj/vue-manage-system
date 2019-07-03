@@ -54,7 +54,7 @@
                             },
                             {
                                 index: 'zhidan',
-                                title: '制单',
+                                title: '制单信息',
                             }
                         ]
                     },
