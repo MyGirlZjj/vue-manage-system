@@ -26,17 +26,17 @@
                 </el-table-column>
             </el-table>
             <el-row :gutter="20">
-                <el-col :span="6">总数：{{totalNum}}</el-col>
-                <el-col :span="6">合计价格：{{totalPrice}}</el-col>
+                <!-- <el-col :span="6">总数：{{totalNum}}</el-col> -->
+                <el-col :span="6">合计价格：{{cartsMoney}}元整</el-col>
+                <el-col :span="6"></el-col>
+                <el-col :span="6"></el-col>
+
                 <el-col :span="6">
-                    <el-button type="danger" size="medium" icon="el-icon-delete" @click="dialogDeleteAll">清空购物车</el-button>
+                    <el-button type="danger" size="medium" icon="el-icon-delete" @click="dialogDeleteAll">生成Excel</el-button>
                 </el-col>
 		  	<el-col :span="6"></el-col>
 		</el-row>
         </div>
-
-
-
 
         <!-- 删除提示框 -->
         <el-dialog title="提示" :visible.sync="dialogVisible" width="300px" center>
@@ -58,12 +58,14 @@
             return {
                 input_number_value:1,
                 dialogVisible : false,
-                delData : null                
+                delData : null,
+
             }
         },
         computed: {
             ...mapGetters({
-			    cartProducts:'cart/cartProducts'
+			    cartProducts:'cart/cartProducts',
+                cartsMoney:'cart/cartsMoney'
 		    })
         },
         methods: {
@@ -89,33 +91,21 @@
             handleBlur(value){
                 this.input_number_value = value
             },           
-            // getData(){
-            //     this.tableData = this.cartGoodsList()
-            //     console.log(this.tableData)
-            // },
-
-
-            //无用
-            
-            
-            // 确定删除
-            deleteYpxx(){
-                this.delVisible = false;
-                const delUrl = getUrl().deleteYpxx
-                console.log(this.delAllData)
-                this.$axios.post(delUrl, {
-                    formData: this.delAllData
+            dialogDeleteAll(){
+                let cartProducts = this.cartProducts
+                let cartsMoney = this.cartsMoney
+                let url = getUrl().downloadExcel
+                console.log(cartProducts)
+                this.$axios.post(url, {
+                    cartProducts: cartProducts,
+                    cartsMoney:cartsMoney
                 }).then((res) => {
-                    if(res.status == 200){
-                        this.$message.success(`删除药品【${this.delYpxxMc.join('、')}】成功`);
-                    }else{
-                        this.$message.error(`删除药品【${this.delYpxxMc.join('、')}】失败`);
-                    }
-                    this.delAllData = []
-                    this.delYpxxMc = []
-                    this.getData();
+                    this.tableData = res.data;
                 })
+
             }
+
+
         }
     }
 

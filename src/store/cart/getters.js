@@ -32,6 +32,6 @@ export default {
     for(let item in cart) {
       money += cart[item].danjia * cart[item].num
     }
-    return Number(money)
+    return Number(money).toFixed(2)
   }
 }

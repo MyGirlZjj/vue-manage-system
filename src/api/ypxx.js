@@ -7,7 +7,8 @@ const ypxxApi = {
     addOrUpadteYpxx : baseUrl + '/ypxx/addOrUpadteYpxx' ,
     deleteYpxx: baseUrl + '/ypxx/deleteYpxx',
     queryYpxxByBianMa: baseUrl + '/ypxx/queryYpxxByBianMa',
-    uploadExcel : baseUrl + '/ypxx/uploadExcel'
+    uploadExcel : baseUrl + '/ypxx/uploadExcel',
+    downloadExcel:baseUrl +'/ypxx/downloadExcel'    
 }
 
 export function getUrl() {
