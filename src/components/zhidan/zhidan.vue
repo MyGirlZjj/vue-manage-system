@@ -32,7 +32,7 @@
                 <el-col :span="6"></el-col>
 
                 <el-col :span="6">
-                    <el-button type="danger" size="medium" icon="el-icon-delete" @click="dialogDeleteAll">生成Excel</el-button>
+                    <el-button type="danger" size="medium" icon="el-icon-delete" @click="export2excel">生成Excel</el-button>
                 </el-col>
 		  	<el-col :span="6"></el-col>
 		</el-row>
@@ -91,7 +91,7 @@
             handleBlur(value){
                 this.input_number_value = value
             },           
-            dialogDeleteAll(){
+            export2excel11(){
                 let cartProducts = this.cartProducts
                 let cartsMoney = this.cartsMoney
                 let url = getUrl().downloadExcel
@@ -100,9 +100,34 @@
                     cartProducts: cartProducts,
                     cartsMoney:cartsMoney
                 }).then((res) => {
-                    this.tableData = res.data;
+                    this.$message.success(`删除成功`);
                 })
 
+            },
+            export2excel() {
+                import('@/vendor/Export2Excel').then(excel => {
+                const multiHeader = [['时间', '河北神威大药房配送清单', '', '', '','','','','','','',''],['','','客户','','','','','','','发货区域','','',]]
+                const header = ['日期', '编码', '品名', '规格', '批号','有效期','单位','数量','单价','金额','生产厂家','批准文号']
+                const filterVal = ['日期', 'bianma', 'pinming', 'guige', 'pihao','youxiaoqi','danwei','num','danjia','jine','shengchanchangjia','pizhunwenhao']
+                const list = this.cartProducts
+                const data = this.formatJson(filterVal, list)
+                const merges = ['A1:A2', 'B1:K1', 'D1:J1','K1:L1']
+                excel.export_json_to_excel({
+                    multiHeader,
+                    header,
+                    merges,
+                    data
+                    })
+                })
+            },
+            formatJson(filterVal, jsonData) {
+            return jsonData.map(v => filterVal.map(j => {
+                if (j === 'timestamp') {
+                return parseTime(v[j])
+                } else {
+                return v[j]
+                }
+            }))
             }
 
 
