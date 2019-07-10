@@ -81,7 +81,16 @@
                 <el-form-item label="有效期">
                     <el-date-picker type="date" placeholder="选择日期" v-model="form.youxiaoqi" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="单位"><el-input v-model="form.danwei"></el-input></el-form-item>
+                <!-- <el-form-item label="单位"><el-input v-model="form.danwei"></el-input></el-form-item> -->
+                <el-form-item label="单位">
+                    <el-select v-model="form.danwei">
+                        <el-option value="盒">盒</el-option>
+                        <el-option value="袋">袋</el-option>
+                        <el-option value="支">支</el-option>
+                        <el-option value="瓶">瓶</el-option>
+                        <el-option value="桶">桶</el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="单价"><el-input v-model="form.danjia"></el-input></el-form-item>
                 <el-form-item label="生产厂家"><el-input v-model="form.shengchanchangjia"></el-input></el-form-item>
                 <el-form-item label="批准文号"><el-input v-model="form.pizhunwenhao"></el-input></el-form-item>

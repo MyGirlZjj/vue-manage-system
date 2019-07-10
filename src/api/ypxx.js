@@ -8,6 +8,7 @@ const ypxxApi = {
     deleteYpxx: baseUrl + '/ypxx/deleteYpxx',
     queryYpxxByBianMa: baseUrl + '/ypxx/queryYpxxByBianMa',
     uploadExcel : baseUrl + '/ypxx/uploadExcel',
+    getExcelFile:baseUrl +'/ypxx/getExcelFile',  
     downloadExcel:baseUrl +'/ypxx/downloadExcel'    
 }
 

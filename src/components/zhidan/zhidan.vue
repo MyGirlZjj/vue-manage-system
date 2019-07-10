@@ -91,20 +91,30 @@
             handleBlur(value){
                 this.input_number_value = value
             },           
-            export2excel11(){
+            export2excel(){
                 let cartProducts = this.cartProducts
                 let cartsMoney = this.cartsMoney
-                let url = getUrl().downloadExcel
+                let url = getUrl().getExcelFile
                 console.log(cartProducts)
                 this.$axios.post(url, {
                     cartProducts: cartProducts,
                     cartsMoney:cartsMoney
                 }).then((res) => {
-                    this.$message.success(`删除成功`);
+                    this.$message.success(`文档生成成功`);
+                    let a = document.createElement('a')
+                    let url = getUrl().downloadExcel + '?filePath='+ res.data 
+                    // a.href = url
+                    // a.click
+                    window.open(url, '_blank')
+                    // var elemIF = document.createElement('iframe')
+                    // elemIF.src = getUrl().downloadExcel + '?filePath='+ res.data 
+                    // elemIF.style.display = 'none'
+                    // document.body.appendChild(elemIF)
+
                 })
 
             },
-            export2excel() {
+            export2excel11() {
                 import('@/vendor/Export2Excel').then(excel => {
                 const multiHeader = [['时间', '河北神威大药房配送清单', '', '', '','','','','','','',''],['','','客户','','','','','','','发货区域','','',]]
                 const header = ['日期', '编码', '品名', '规格', '批号','有效期','单位','数量','单价','金额','生产厂家','批准文号']
@@ -120,6 +130,9 @@
                     })
                 })
             },
+
+
+            
             formatJson(filterVal, jsonData) {
             return jsonData.map(v => filterVal.map(j => {
                 if (j === 'timestamp') {
