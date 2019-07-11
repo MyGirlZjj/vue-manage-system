@@ -28,5 +28,10 @@ export default {
  /*更新本地购物车*/
   update_cart: ({ commit }) => {
     commit(types.UPDATE_CART)
+  },
+ /*更新本地购物车*/
+  empty_cart: ({ commit }) => {
+    commit(types.EMPTY_CART)
+    commit(types.UPDATE_CART)
   }
 }

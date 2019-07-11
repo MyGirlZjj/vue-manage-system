@@ -26,7 +26,6 @@
                 </el-table-column>
             </el-table>
             <el-row :gutter="20">
-                <!-- <el-col :span="6">总数：{{totalNum}}</el-col> -->
                 <el-col :span="6">合计价格：{{cartsMoney}}元整</el-col>
                 <el-col :span="6"></el-col>
                 <el-col :span="6"></el-col>
@@ -46,6 +45,8 @@
                 <el-button type="primary" @click="deleteYpxxToCart">确 定</el-button>
             </span>
         </el-dialog>
+
+
     </div>
 </template>
 
@@ -59,7 +60,6 @@
                 input_number_value:1,
                 dialogVisible : false,
                 delData : null,
-
             }
         },
         computed: {
@@ -74,6 +74,8 @@
                 'reduceGoodsFromCart': 'cart/reduce_goods_from_cart',
                 'deleteGoodsFromCart': 'cart/delete_goods_from_cart',
                 'modifyGoodsFromCart': 'cart/modify_goods_num_from_cart',
+                'updateCart': 'cart/update_cart',
+                'emptyCart': 'cart/empty_cart'
             }),
             deleteYpxxToCart(){
                 this.deleteGoodsFromCart(this.delData)
@@ -101,49 +103,15 @@
                     cartsMoney:cartsMoney
                 }).then((res) => {
                     this.$message.success(`文档生成成功`);
+                    let url = getUrl().downloadExcel + '?filePath=' + encodeURIComponent(res.data)
+                    // window.open(url,"_blank")
                     let a = document.createElement('a')
-                    let url = getUrl().downloadExcel + '?filePath='+ res.data 
-                    // a.href = url
-                    // a.click
-                    window.open(url, '_blank')
-                    // var elemIF = document.createElement('iframe')
-                    // elemIF.src = getUrl().downloadExcel + '?filePath='+ res.data 
-                    // elemIF.style.display = 'none'
-                    // document.body.appendChild(elemIF)
-
+                    a.href =url
+                    a.click();
+                    this.emptyCart()
                 })
 
-            },
-            export2excel11() {
-                import('@/vendor/Export2Excel').then(excel => {
-                const multiHeader = [['时间', '河北神威大药房配送清单', '', '', '','','','','','','',''],['','','客户','','','','','','','发货区域','','',]]
-                const header = ['日期', '编码', '品名', '规格', '批号','有效期','单位','数量','单价','金额','生产厂家','批准文号']
-                const filterVal = ['日期', 'bianma', 'pinming', 'guige', 'pihao','youxiaoqi','danwei','num','danjia','jine','shengchanchangjia','pizhunwenhao']
-                const list = this.cartProducts
-                const data = this.formatJson(filterVal, list)
-                const merges = ['A1:A2', 'B1:K1', 'D1:J1','K1:L1']
-                excel.export_json_to_excel({
-                    multiHeader,
-                    header,
-                    merges,
-                    data
-                    })
-                })
-            },
-
-
-            
-            formatJson(filterVal, jsonData) {
-            return jsonData.map(v => filterVal.map(j => {
-                if (j === 'timestamp') {
-                return parseTime(v[j])
-                } else {
-                return v[j]
-                }
-            }))
             }
-
-
         }
     }
 

@@ -38,6 +38,11 @@ export default {
   /*更新购物车*/
   [types.UPDATE_CART](state) {
     localStorage.setItem('cart', JSON.stringify(state.cart))
+  },
+  /* 清空购物车 */ 
+  [types.EMPTY_CART](state) {
+    // localStorage.setItem('cart', {})
+    state.cart = {}
   }
 }
 

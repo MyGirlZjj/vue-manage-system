@@ -32,7 +32,7 @@
                 <el-table-column prop="pizhunwenhao" label="批准文号" width="120"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-edit" @click="addYpxxToCret(scope.$index, scope.row)">添加</el-button>
+                        <el-button type="text" icon="el-icon-lx-add" @click="addYpxxToCret(scope.$index, scope.row)">添加</el-button>
                         <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                         <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
@@ -69,19 +69,13 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑药品信息" :visible.sync="editVisible" width="40%">
             <el-form ref="form" :model="form" label-width="80px">
-                <!-- <el-form-item label="日期">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
-                </el-form-item> -->
-                <!-- <el-form-item label="id"><el-input v-model="form.id"></el-input></el-form-item> -->
                 <el-form-item label="编码"><el-input v-model="form.bianma"></el-input></el-form-item>
                 <el-form-item label="品名"><el-input v-model="form.pinming"></el-input></el-form-item>
                 <el-form-item label="规格"><el-input v-model="form.guige"></el-input></el-form-item>
                 <el-form-item label="批号"><el-input v-model="form.pihao"></el-input></el-form-item>
-                <!-- <el-form-item label="有效期"><el-input v-model="form.youxiaoqi"></el-input></el-form-item> -->
                 <el-form-item label="有效期">
                     <el-date-picker type="date" placeholder="选择日期" v-model="form.youxiaoqi" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
                 </el-form-item>
-                <!-- <el-form-item label="单位"><el-input v-model="form.danwei"></el-input></el-form-item> -->
                 <el-form-item label="单位">
                     <el-select v-model="form.danwei">
                         <el-option value="盒">盒</el-option>
@@ -179,9 +173,6 @@
                     row.num = 1
                     this.createGoodsToCart(row)
                 }
-
-                // let target = this.$refs.thumb
-                // this.$emit('addCart', target)
             },
             delFile() {
                 this.fileList = [];

@@ -10,3 +10,5 @@ export const ADD_GOODS_FROM_CART = 'ADD_GOODS_FROM_CART'
 export const REDUCE_GOODS_FROM_CART = 'REDUCE_GOODS_FROM_CART'
 /*更新购物车*/
 export const UPDATE_CART = 'UPDATE_CART'
+/*清空购物车*/
+export const EMPTY_CART = 'EMPTY_CART'

@@ -1,15 +1,15 @@
-import config from '../../vue.config'
+// import config from '../../vue.config'
 
-const baseUrl = config.devServer.proxy["/api"].target + '/zhidan'
+// const baseUrl = config.devServer.proxy["/api"].target + '/zhidan'
 
 const ypxxApi = {
-    queryYpxx : baseUrl + '/ypxx/queryYpxxList',
-    addOrUpadteYpxx : baseUrl + '/ypxx/addOrUpadteYpxx' ,
-    deleteYpxx: baseUrl + '/ypxx/deleteYpxx',
-    queryYpxxByBianMa: baseUrl + '/ypxx/queryYpxxByBianMa',
-    uploadExcel : baseUrl + '/ypxx/uploadExcel',
-    getExcelFile:baseUrl +'/ypxx/getExcelFile',  
-    downloadExcel:baseUrl +'/ypxx/downloadExcel'    
+    queryYpxx : '/zhidan/ypxx/queryYpxxList',
+    addOrUpadteYpxx : '/zhidan/ypxx/addOrUpadteYpxx' ,
+    deleteYpxx: '/zhidan/ypxx/deleteYpxx',
+    queryYpxxByBianMa: '/zhidan/ypxx/queryYpxxByBianMa',
+    uploadExcel : '/zhidan/ypxx/uploadExcel',
+    getExcelFile:'/zhidan/ypxx/getExcelFile',  
+    downloadExcel:'/zhidan/ypxx/downloadExcel'    
 }
 
 export function getUrl() {
