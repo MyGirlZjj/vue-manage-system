@@ -21,7 +21,7 @@
                 <el-table-column type="selection" width="35" align="center"></el-table-column>
                 <!-- <el-table-column prop="id" label="id" v-show="false" width="150"></el-table-column> -->
                 <el-table-column prop="bianma" label="编码" sortable width="120"></el-table-column>
-                <el-table-column prop="pinming" label="品名" width="120"></el-table-column>
+                <el-table-column class="link-type" prop="pinming" label="品名" width="120" @click="handleEdit(scope.$index, scope.row)"></el-table-column>
                 <el-table-column prop="guige" label="规格" width="80"></el-table-column>
                 <el-table-column prop="pihao" label="批号" width="120"></el-table-column>
                 <!-- <el-table-column prop="pihao" label="批号" :formatter="formatter" width="120"></el-table-column> -->
@@ -39,7 +39,7 @@
                 </el-table-column>
             </el-table>
             <div class="pagination">
-                <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
+                <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="10000">
                 </el-pagination>
             </div>
         </div>
@@ -76,7 +76,8 @@
                 <el-form-item label="有效期">
                     <el-date-picker type="date" placeholder="选择日期" v-model="form.youxiaoqi" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="单位">
+                <el-form-item label="单位"><el-input v-model="form.danwei"></el-input></el-form-item>
+                <!-- <el-form-item label="单位">
                     <el-select v-model="form.danwei">
                         <el-option value="盒">盒</el-option>
                         <el-option value="袋">袋</el-option>
@@ -84,7 +85,7 @@
                         <el-option value="瓶">瓶</el-option>
                         <el-option value="桶">桶</el-option>
                     </el-select>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="单价"><el-input v-model="form.danjia"></el-input></el-form-item>
                 <el-form-item label="生产厂家"><el-input v-model="form.shengchanchangjia"></el-input></el-form-item>
                 <el-form-item label="批准文号"><el-input v-model="form.pizhunwenhao"></el-input></el-form-item>
